@@ -1,25 +1,17 @@
 Make sure you din't have any old stuff:
-sudo rmmod aic8800_fdrv aic_load_fw 2>/dev/null
-sudo rm -rf /lib/firmware/aic8800*
+sudo rmmod aic8800_fdrv aic_load_fw 2>/dev/null && sudo rm -rf /lib/firmware/aic8800*
 
 If it isn't obvious, clone:
-git clone https://github.com/MimoAW/AIC8800-Linux-Driver
-cd AIC8800-Linux-Driver
+git clone https://github.com/MimoAW/AIC8800-Linux-Driver && cd AIC8800-Linux-Driver
 
 Udev stuff I think?:
-sudo su
-sh install_setup.sh
-cd drivers/aic8800
+sudo sh install_setup.sh && cd drivers/aic8800
 
 Make:
-make clean
-make
-make install
+make clean && make && make install
 
 Modprobe:
-sudo modprobe cfg80211
-sudo modprobe aic_load_fw
-sudo modprobe aic8800_fdrv
+sudo modprobe cfg80211 && sudo modprobe aic_load_fw && sudo modprobe aic8800_fdrv
 
 Finally:
 lsmod | grep aic
