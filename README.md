@@ -1,48 +1,25 @@
-# AIC8800 Linux Driver
+Make sure you din't have any old stuff:
+sudo rmmod aic8800_fdrv aic_load_fw 2>/dev/null
+sudo rm -rf /lib/firmware/aic8800*
 
-AIC8800 WiFi 驱动程序,适用于 Arch Linux 平台。
-
-## 概述
-
-本驱动修复了 AIC8800 芯片在 Linux Kernel 6.17.1-arch1-1 版本下的编译错误问题。\
-**2025.11.11更新**： Linux Kernel 6.17.7-arch1-1 在Arch Linux x64平台上仍可以编译通过
-
-## 测试环境
-
-- **平台**: Arch Linux
-- **内核版本**: Linux 6.17.1-arch1-1
-- **外联网卡**: 绿联AX300-CM762
-## 致谢
-
-本项目参考了以下资源:
-
-- [绿联官方 AX300 驱动](https://www.ugreen.com/)
-- [sqlwwx/aic8800](https://github.com/sqlwwx/aic8800) 项目中的适配工作
-- 使用 codex 辅助进行代码修改
-
-## 编译安装
-
-```bash
-# 克隆仓库
-git clone https://github.com/BLUEMOON233/AIC8800-Linux-Driver.git
-
-#初始化
+If it isn't obvious, clone:
+git clone https://github.com/MimoAW/AIC8800-Linux-Driver
 cd AIC8800-Linux-Driver
+
+Udev stuff I think?:
 sudo su
 sh install_setup.sh
 cd drivers/aic8800
 
-# 编译
+Make:
+make clean
 make
-
-# 安装
 make install
 
-# 加载驱动
-modprobe cfg80211
-modprobe aic_load_fw
-modprobe aic8800_fdrv
+Modprobe:
+sudo modprobe cfg80211
+sudo modprobe aic_load_fw
+sudo modprobe aic8800_fdrv
 
-# 查看驱动加载情况
+Finally:
 lsmod | grep aic
-```
