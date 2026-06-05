@@ -8,7 +8,7 @@ Udev stuff I think?:
 sudo sh install_setup.sh && cd drivers/aic8800
 
 Make:
-make clean && make && make install
+sudo make clean && sudo make && sudo make install
 
 DKMS:
 sudo cp -a . /usr/src/aic8800-1.0 && sudo dkms add -m aic8800 -v 1.0 && sudo dkms build -m aic8800 -v 1.0 && sudo dkms install -m aic8800 -v 1.0
