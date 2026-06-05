@@ -10,6 +10,9 @@ sudo sh install_setup.sh && cd drivers/aic8800
 Make:
 make clean && make && make install
 
+DKMS:
+sudo cp -a . /usr/src/aic8800-1.0 && sudo dkms add -m aic8800 -v 1.0 && sudo dkms build -m aic8800 -v 1.0 && sudo dkms install -m aic8800 -v 1.0
+
 Modprobe:
 sudo modprobe cfg80211 && sudo modprobe aic_load_fw && sudo modprobe aic8800_fdrv
 
