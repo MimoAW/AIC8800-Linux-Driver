@@ -1,4 +1,4 @@
-Make sure you din't have any old stuff:
+Make sure you don't have any old drivers that are broken af:
 ```sudo rmmod aic8800_fdrv aic_load_fw 2>/dev/null && sudo rm -rf /lib/firmware/aic8800*```
 
 If it isn't obvious, clone:
