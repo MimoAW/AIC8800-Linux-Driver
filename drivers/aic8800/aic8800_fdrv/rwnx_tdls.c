@@ -13,6 +13,13 @@
  ******************************************************************************
  */
 
+
+#include <linux/version.h>
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0)
+#define TDLS_DISC_RESP mgmt->u.action.tdls_discover_resp
+#else
+#define TDLS_DISC_RESP TDLS_DISC_RESP
+#endif
 #include "rwnx_tdls.h"
 #include "rwnx_compat.h"
 
@@ -115,11 +122,19 @@ rwnx_prep_tdls_direct(struct rwnx_hw *rwnx_hw, struct rwnx_vif *rwnx_vif,
 
     switch (action_code) {
     case WLAN_PUB_ACTION_TDLS_DISCOVER_RES:
-        skb_put(skb, 1 + sizeof(mgmt->u.action.u.tdls_discover_resp));
+        #if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0)
+	skb_put(skb, 2 + sizeof(mgmt->u.action.tdls_discover_resp));
+#else
+	skb_put(skb, 1 + sizeof(TDLS_DISC_RESP));
+#endif
         mgmt->u.action.category = WLAN_CATEGORY_PUBLIC;
-        mgmt->u.action.u.tdls_discover_resp.action_code = WLAN_PUB_ACTION_TDLS_DISCOVER_RES;
-        mgmt->u.action.u.tdls_discover_resp.dialog_token = dialog_token;
-        mgmt->u.action.u.tdls_discover_resp.capability =
+        #if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0)
+	mgmt->u.action.action_code = WLAN_PUB_ACTION_TDLS_DISCOVER_RES;
+#else
+	TDLS_DISC_RESP.action_code = WLAN_PUB_ACTION_TDLS_DISCOVER_RES;
+#endif
+        TDLS_DISC_RESP.dialog_token = dialog_token;
+        TDLS_DISC_RESP.capability =
             cpu_to_le16(rwnx_get_tdls_sta_capab(rwnx_vif, status_code));
         break;
     default:
