@@ -4652,28 +4652,32 @@ rwnx_cfg80211_remain_on_channel_(struct wiphy *wiphy,
 
 static int
 rwnx_cfg80211_remain_on_channel(struct wiphy *wiphy,
-                            #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0)
+                                #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0)
                                 struct wireless_dev *wdev,
-                            #else
+                                #else
                                 struct net_device *dev,
-                            #endif
+                                #endif
                                 struct ieee80211_channel *chan,
-                            #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
+                                #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
                                 enum nl80211_channel_type channel_type,
-                            #endif
-                                unsigned int duration, u64 *cookie)
+                                #endif
+                                #if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0)
+                                unsigned int duration, u64 *cookie, const u8 *extra)
+#else
+unsigned int duration, u64 *cookie)
+#endif
 {
-	return rwnx_cfg80211_remain_on_channel_(wiphy,
-                            #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0)
-                                wdev,
-                            #else
-                                dev,
-                            #endif
-                                chan,
-                            #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
-                                channel_type,
-                            #endif
-                                duration, cookie, false);
+    return rwnx_cfg80211_remain_on_channel_(wiphy,
+                                            #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0)
+                                            wdev,
+                                            #else
+                                            dev,
+                                            #endif
+                                            chan,
+                                            #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
+                                            channel_type,
+                                            #endif
+                                            duration, cookie, false);
 }
 
 /**
